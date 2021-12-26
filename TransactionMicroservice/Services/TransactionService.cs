@@ -30,9 +30,9 @@ namespace TransactionMicroservice.Services
             };
 
             HttpClient httpClient = _httpClientFactory.CreateClient();
-            httpClient.BaseAddress = new Uri("https://localhost:7001/api/transaction");
+            httpClient.BaseAddress = new Uri("https://rbs-transaction-microservice12.azurewebsites.net/api/transaction");
             
-            HttpResponseMessage response1 = httpClient.GetAsync("https://localhost:6001/api/Accounts/GetAccountById?accountid=" + accountId).Result;//url for account microservice
+            HttpResponseMessage response1 = httpClient.GetAsync("https://rbs-account-microservice.azurewebsites.net/api/Accounts/GetAccountById?accountid=" + accountId).Result;//url for account microservice
             if (response1.IsSuccessStatusCode)
             {
                 Account account = await response1.Content.ReadAsAsync<Account>();
@@ -40,7 +40,7 @@ namespace TransactionMicroservice.Services
                 {
                     status1.Source_Balance = account.Balance_Amount;
 
-                    var message = new HttpRequestMessage(HttpMethod.Post, "https://localhost:6001/api/Accounts/DepositAmount?accountId=" + accountId + "&amount=" + amount);//url for account microservice
+                    var message = new HttpRequestMessage(HttpMethod.Post, "https://rbs-account-microservice.azurewebsites.net/api/Accounts/DepositAmount?accountId=" + accountId + "&amount=" + amount);//url for account microservice
                     var response = await httpClient.SendAsync(message);
                     if (response.IsSuccessStatusCode)
                     {
@@ -76,8 +76,8 @@ namespace TransactionMicroservice.Services
             };
 
             HttpClient httpClient = _httpClientFactory.CreateClient();
-            httpClient.BaseAddress = new Uri("https://localhost:7001/api/transaction");
-            HttpResponseMessage response1 = httpClient.GetAsync("https://localhost:6001/api/Accounts/GetAccountById?accountid=" + accountId).Result;//url for acc service//url for account microservice
+            httpClient.BaseAddress = new Uri("https://rbs-transaction-microservice12.azurewebsites.net/api/transaction");
+            HttpResponseMessage response1 = httpClient.GetAsync("https://rbs-account-microservice.azurewebsites.net/api/Accounts/GetAccountById?accountid=" + accountId).Result;//url for acc service//url for account microservice
             if (response1.IsSuccessStatusCode)
             {
                 Account account = await response1.Content.ReadAsAsync<Account>();
@@ -87,14 +87,14 @@ namespace TransactionMicroservice.Services
                     status1.Source_Balance = account.Balance_Amount;
                     if (account.Balance_Amount > amount)
                     {
-                        HttpResponseMessage response2 = httpClient.GetAsync("https://localhost:8001/api/Rule/EvaluateMinBalance?balance=" + account.Balance_Amount + "&AccountId=" + accountId).Result;//url for rules microservice
+                        HttpResponseMessage response2 = httpClient.GetAsync(https://rbs-rule-microservice12.azurewebsites.net/api/Rule/EvaluateMinBalance?balance=" + account.Balance_Amount + "&AccountId=" + accountId).Result;//url for rules microservice
 
                         if (response2.IsSuccessStatusCode)
                         {
                             string transactionStatus = await response2.Content.ReadAsStringAsync();
                             if (transactionStatus.Equals("Allowed"))
                             {
-                                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, "https://localhost:6001/api/Accounts/WithdrawAmount?accountid=" + accountId + "&amount=" + amount);//url for account microservice
+                                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, "https://rbs-account-microservice.azurewebsites.net/api/Accounts/WithdrawAmount?accountid=" + accountId + "&amount=" + amount);//url for account microservice
                                 var response3 = await httpClient.SendAsync(message);
 
                                 if (response3.IsSuccessStatusCode)
@@ -172,8 +172,8 @@ namespace TransactionMicroservice.Services
         public async Task<IEnumerable<Financial_Transactions>> GetTransactions(int customerId)
         {
             HttpClient httpClient = _httpClientFactory.CreateClient();
-            httpClient.BaseAddress = new Uri("https://localhost:7001/api/transaction");
-            HttpResponseMessage response1 = httpClient.GetAsync("https://localhost:6001/api/Accounts/GetCustomerAccountDetailsById?customerId=" + customerId).Result;//url for account microservice
+            httpClient.BaseAddress = new Uri(https://rbs-transaction-microservice12.azurewebsites.net/api/transaction");
+            HttpResponseMessage response1 = httpClient.GetAsync("https://rbs-account-microservice.azurewebsites.net/api/Accounts/GetCustomerAccountDetailsById?customerId=" + customerId).Result;//url for account microservice
             List<Financial_Transactions> transactions = new List<Financial_Transactions>();
             if (response1.IsSuccessStatusCode)
             {
