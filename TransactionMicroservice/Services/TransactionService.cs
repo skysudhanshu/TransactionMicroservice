@@ -87,7 +87,7 @@ namespace TransactionMicroservice.Services
                     status1.Source_Balance = account.Balance_Amount;
                     if (account.Balance_Amount > amount)
                     {
-                        HttpResponseMessage response2 = httpClient.GetAsync(https://rbs-rule-microservice12.azurewebsites.net/api/Rule/EvaluateMinBalance?balance=" + account.Balance_Amount + "&AccountId=" + accountId).Result;//url for rules microservice
+                        HttpResponseMessage response2 = httpClient.GetAsync("https://rbs-rule-microservice12.azurewebsites.net/api/Rule/EvaluateMinBalance?balance=" + account.Balance_Amount + "&AccountId=" + accountId).Result;//url for rules microservice
 
                         if (response2.IsSuccessStatusCode)
                         {
@@ -172,7 +172,7 @@ namespace TransactionMicroservice.Services
         public async Task<IEnumerable<Financial_Transactions>> GetTransactions(int customerId)
         {
             HttpClient httpClient = _httpClientFactory.CreateClient();
-            httpClient.BaseAddress = new Uri(https://rbs-transaction-microservice12.azurewebsites.net/api/transaction");
+            httpClient.BaseAddress = new Uri("https://rbs-transaction-microservice12.azurewebsites.net/api/transaction");
             HttpResponseMessage response1 = httpClient.GetAsync("https://rbs-account-microservice.azurewebsites.net/api/Accounts/GetCustomerAccountDetailsById?customerId=" + customerId).Result;//url for account microservice
             List<Financial_Transactions> transactions = new List<Financial_Transactions>();
             if (response1.IsSuccessStatusCode)
